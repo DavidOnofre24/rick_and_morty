@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_app/dependecies_injection/dependencies_injection.dart';
-import 'package:rick_and_morty_app/screens/characters/characters_route.dart';
+import 'package:rick_and_morty_app/screens/home/home_route.dart';
 
 void main() async {
   await setupDependencies();
@@ -40,7 +40,7 @@ class _InitialScreenState extends State<InitialScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       mainNavigationKey.currentState
-          ?.pushReplacement(CharactersRoute(context).getRoute());
+          ?.pushReplacement(HomeRoute(context).getRoute());
     });
     super.initState();
   }
