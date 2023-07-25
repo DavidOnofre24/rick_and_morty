@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_app/screens/characters/characters_screen.dart';
+import 'package:rick_and_morty_app/screens/episodes/episodes_screen.dart';
 import 'package:rick_and_morty_app/screens/locations/locations_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,15 +12,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   static const List<Widget> _widgetOptions = <Widget>[
     CharactersScreen(),
     LocationsScreen(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    EpisodesScreen(),
   ];
 
   void _onItemTapped(int index) {
