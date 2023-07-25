@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/models/location/location_model.dart';
+import 'package:rick_and_morty_app/screens/location_detail/location_detail_route.dart';
 import 'package:rick_and_morty_app/screens/locations/cubit/location_cubit.dart';
 import 'package:rick_and_morty_app/screens/widgets/box_shimmer.dart';
 
@@ -50,20 +51,10 @@ class _LocationsScreenState extends State<LocationsScreen> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.locations.length ~/ 2,
+                  itemCount: state.locations.length,
                   itemBuilder: (context, index) {
-                    int firstIndex = index * 2;
-                    int secondIndex = index * 2 + 1;
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        LocationCard(
-                          location: state.locations[firstIndex],
-                        ),
-                        LocationCard(
-                          location: state.locations[secondIndex],
-                        ),
-                      ],
+                    return LocationCard(
+                      location: state.locations[index],
                     );
                   },
                 ),
@@ -108,14 +99,14 @@ class LocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: Navigate to location detail
+        LocationDetailRoute(context, location: location).push();
       },
       child: Container(
-        margin: const EdgeInsets.only(top: 10),
-        width: MediaQuery.of(context).size.width * 0.43,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        margin: const EdgeInsets.only(top: 15, left: 10, right: 10),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -130,34 +121,27 @@ class LocationCard extends StatelessWidget {
           ],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Column(
-                children: [
-                  Text(
-                    location.name,
-                    maxLines: 1,
-                    style: const TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    location.dimension,
-                    maxLines: 1,
-                    style: const TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    location.type,
-                    maxLines: 1,
-                    style: const TextStyle(fontSize: 14),
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  location.name,
+                  maxLines: 1,
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  location.type,
+                  maxLines: 1,
+                  style: const TextStyle(fontSize: 14),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ],
         ),
