@@ -8,9 +8,11 @@ class CharactersProvider {
   final Client client;
   CharactersProvider({required this.client});
 
-  Future<CharactersApiModel> fetchCharacters() async {
-    final response = await client
-        .get(Uri.parse("https://rickandmortyapi.com/api/character"));
+  Future<CharactersApiModel> fetchCharacters(int pageNumber) async {
+    final uri = Uri.parse("https://rickandmortyapi.com/api/character")
+        .replace(queryParameters: {"page": pageNumber.toString()});
+    final response =
+        await client.get(uri, headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       return CharactersApiModel.fromJson(json.decode(response.body));
     } else {
