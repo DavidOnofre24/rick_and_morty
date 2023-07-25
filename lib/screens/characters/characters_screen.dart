@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/models/character_model.dart';
+import 'package:rick_and_morty_app/screens/character_detail/character_detail_route.dart';
 import 'package:rick_and_morty_app/screens/characters/cubit/characters_cubit.dart';
 import 'package:rick_and_morty_app/screens/widgets/box_shimmer.dart';
 
@@ -77,7 +78,7 @@ class CharacterCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: Navigate to character detail screen
+        CharacterDetailRoute(context, id: character.id).push();
       },
       child: Container(
         margin: const EdgeInsets.only(top: 10),
