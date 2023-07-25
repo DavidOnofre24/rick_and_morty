@@ -20,7 +20,9 @@ class CharacterDetailRoute extends RouteBuilder {
     return MaterialPageRoute(
       builder: (context) {
         return MultiBlocProvider(
-          providers: [characterDetailCubitProvider(id)],
+          providers: [
+            characterDetailCubitProvider(id),
+          ],
           child: const CharacterDetailScreen(),
         );
       },

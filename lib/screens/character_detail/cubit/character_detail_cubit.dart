@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_and_morty_app/models/character_detail_model.dart';
+import 'package:rick_and_morty_app/models/character/character_detail_model.dart';
 import 'package:rick_and_morty_app/providers/character_provider.dart';
 
 part 'character_detail_state.dart';

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_and_morty_app/models/character_model.dart';
+import 'package:rick_and_morty_app/models/character/character_model.dart';
 import 'package:rick_and_morty_app/screens/character_detail/character_detail_route.dart';
 import 'package:rick_and_morty_app/screens/characters/cubit/characters_cubit.dart';
 import 'package:rick_and_morty_app/screens/widgets/box_shimmer.dart';
@@ -31,78 +31,73 @@ class _CharactersScreenState extends State<CharactersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text('Characters'),
-        ),
-        body: BlocBuilder<CharactersCubit, CharactersState>(
-          bloc: context.read<CharactersCubit>(),
-          builder: (context, state) {
-            if (state is CharactersLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+    return BlocBuilder<CharactersCubit, CharactersState>(
+      bloc: context.read<CharactersCubit>(),
+      builder: (context, state) {
+        if (state is CharactersLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
 
-            if (state is CharactersLoaded) {
-              return ListView(controller: scrollController, children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.characters.length ~/ 2,
-                      itemBuilder: (context, index) {
-                        int firstIndex = index * 2;
-                        int secondIndex = index * 2 + 1;
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            CharacterCard(
-                              character: state.characters[firstIndex],
-                            ),
-                            CharacterCard(
-                              character: state.characters[secondIndex],
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    if (state.isLoadMore)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          BoxSimmer(
-                            width: MediaQuery.of(context).size.width * 0.43,
-                            height: 200,
-                          ),
-                          BoxSimmer(
-                            width: MediaQuery.of(context).size.width * 0.43,
-                            height: 200,
-                          ),
-                        ],
-                      )
-                  ],
+        if (state is CharactersLoaded) {
+          return ListView(controller: scrollController, children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const SizedBox(
+                  height: 10,
                 ),
-              ]);
-            }
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.characters.length ~/ 2,
+                  itemBuilder: (context, index) {
+                    int firstIndex = index * 2;
+                    int secondIndex = index * 2 + 1;
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CharacterCard(
+                          character: state.characters[firstIndex],
+                        ),
+                        CharacterCard(
+                          character: state.characters[secondIndex],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                if (state.isLoadMore)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      BoxSimmer(
+                        width: MediaQuery.of(context).size.width * 0.43,
+                        height: 200,
+                      ),
+                      BoxSimmer(
+                        width: MediaQuery.of(context).size.width * 0.43,
+                        height: 200,
+                      ),
+                    ],
+                  )
+              ],
+            ),
+          ]);
+        }
 
-            if (state is CharactersError) {
-              return Center(
-                child: Text(state.message),
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ));
+        if (state is CharactersError) {
+          return Center(
+            child: Text(state.message),
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
   }
 }
 
@@ -171,7 +166,16 @@ class CharacterCard extends StatelessWidget {
                 ],
               ),
             ),
-            Text(character.name),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                character.name,
+                maxLines: 1,
+                style: const TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       ),

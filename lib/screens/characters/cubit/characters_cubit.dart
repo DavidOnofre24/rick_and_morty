@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rick_and_morty_app/models/character_model.dart';
+import 'package:rick_and_morty_app/models/character/character_model.dart';
 import 'package:rick_and_morty_app/providers/character_provider.dart';
 
 part 'characters_state.dart';
@@ -13,7 +13,7 @@ class CharactersCubit extends Cubit<CharactersState> {
   }) : super(CharactersInitial());
 
   int currentPage = 1;
-  var pageSize = 0;
+  var pageSize = 2;
   List<Character> allCharacters = [];
 
   void fetchCharacters() async {
@@ -23,6 +23,10 @@ class CharactersCubit extends Cubit<CharactersState> {
         if (currentState.isLoadMore) {
           return;
         }
+      }
+
+      if (pageSize < currentPage) {
+        return;
       }
 
       if (state is CharactersLoaded) {
@@ -37,6 +41,8 @@ class CharactersCubit extends Cubit<CharactersState> {
 
       if (charactersApiModel.characters.isNotEmpty) {
         allCharacters.addAll(charactersApiModel.characters);
+
+        pageSize = charactersApiModel.info.pages;
 
         emit(CharactersLoaded(
             characters: List.of(allCharacters), isLoadMore: false));
