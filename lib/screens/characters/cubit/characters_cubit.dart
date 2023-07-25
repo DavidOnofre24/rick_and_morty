@@ -42,7 +42,8 @@ class CharactersCubit extends Cubit<CharactersState> {
             characters: List.of(allCharacters), isLoadMore: false));
         currentPage++;
       } else {
-        emit(CharactersError(message: "No hay más personajes disponibles."));
+        emit(const CharactersError(
+            message: "No hay más personajes disponibles."));
       }
     } catch (e) {
       emit(CharactersError(message: e.toString()));

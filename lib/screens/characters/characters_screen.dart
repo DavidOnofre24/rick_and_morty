@@ -141,14 +141,34 @@ class CharacterCard extends StatelessWidget {
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(10),
               ),
-              child: CachedNetworkImage(
-                imageUrl: character.image,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => BoxSimmer(
-                  width: MediaQuery.of(context).size.width * 0.43,
-                ),
-                errorWidget: (context, url, error) =>
-                    BoxSimmer(width: MediaQuery.of(context).size.width * 0.43),
+              child: Stack(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: character.image,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => BoxSimmer(
+                      width: MediaQuery.of(context).size.width * 0.43,
+                    ),
+                    errorWidget: (context, url, error) => BoxSimmer(
+                        width: MediaQuery.of(context).size.width * 0.43),
+                  ),
+                  Positioned(
+                      child: Container(
+                    margin: const EdgeInsets.only(left: 5, top: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    decoration: BoxDecoration(
+                        color: (character.status.name == 'alive')
+                            ? Colors.green
+                            : Colors.red,
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Text(
+                      character.status.name.substring(0, 1).toUpperCase() +
+                          character.status.name.substring(1),
+                      style: const TextStyle(fontSize: 17),
+                    ),
+                  ))
+                ],
               ),
             ),
             Text(character.name),
