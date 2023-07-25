@@ -1,13 +1,14 @@
-class Location {
+
+class LocationAbr {
   final String name;
   final String url;
 
-  Location({
+  LocationAbr({
     required this.name,
     required this.url,
   });
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
+  factory LocationAbr.fromJson(Map<String, dynamic> json) => LocationAbr(
         name: json["name"],
         url: json["url"],
       );

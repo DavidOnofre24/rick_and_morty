@@ -1,4 +1,4 @@
-import 'package:rick_and_morty_app/models/location_model.dart';
+import 'package:rick_and_morty_app/models/character/location_abr_model.dart';
 
 class CharacterDetail {
   final int id;
@@ -7,8 +7,8 @@ class CharacterDetail {
   final String species;
   final String type;
   final String gender;
-  final Location origin;
-  final Location location;
+  final LocationAbr origin;
+  final LocationAbr location;
   final String image;
   final List<String> episode;
   final String url;
@@ -37,8 +37,8 @@ class CharacterDetail {
         species: json["species"],
         type: json["type"],
         gender: json["gender"],
-        origin: Location.fromJson(json["origin"]),
-        location: Location.fromJson(json["location"]),
+        origin: LocationAbr.fromJson(json["origin"]),
+        location: LocationAbr.fromJson(json["location"]),
         image: json["image"],
         episode: List<String>.from(json["episode"].map((x) => x)),
         url: json["url"],

@@ -1,4 +1,4 @@
-import 'enum_values.dart';
+import '../enum_values.dart';
 
 enum Status { alive, unknown, dead }
 

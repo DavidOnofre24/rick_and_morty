@@ -1,7 +1,7 @@
 class InfoPages {
   final int count;
   final int pages;
-  final String next;
+  final String? next;
   final String? prev;
 
   InfoPages({

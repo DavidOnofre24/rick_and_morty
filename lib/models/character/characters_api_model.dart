@@ -1,4 +1,4 @@
-import 'package:rick_and_morty_app/models/character_model.dart';
+import 'package:rick_and_morty_app/models/character/character_model.dart';
 import 'package:rick_and_morty_app/models/info_pages_model.dart';
 
 class CharactersApiModel {

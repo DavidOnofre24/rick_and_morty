@@ -1,7 +1,7 @@
-import 'package:rick_and_morty_app/models/gender_enum.dart';
-import 'package:rick_and_morty_app/models/location_model.dart';
-import 'package:rick_and_morty_app/models/species_enum.dart';
-import 'package:rick_and_morty_app/models/status_enum.dart';
+import 'package:rick_and_morty_app/models/character/gender_enum.dart';
+import 'package:rick_and_morty_app/models/character/location_abr_model.dart';
+import 'package:rick_and_morty_app/models/character/species_enum.dart';
+import 'package:rick_and_morty_app/models/character/status_enum.dart';
 
 class Character {
   final int id;
@@ -10,8 +10,8 @@ class Character {
   final Species species;
   final String type;
   final Gender gender;
-  final Location origin;
-  final Location location;
+  final LocationAbr origin;
+  final LocationAbr location;
   final String image;
   final List<String> episode;
   final String url;
@@ -39,8 +39,8 @@ class Character {
         species: speciesValues.map[json["species"]] ?? Species.unknown,
         type: json["type"],
         gender: genderValues.map[json["gender"]] ?? Gender.unknown,
-        origin: Location.fromJson(json["origin"]),
-        location: Location.fromJson(json["location"]),
+        origin: LocationAbr.fromJson(json["origin"]),
+        location: LocationAbr.fromJson(json["location"]),
         image: json["image"],
         episode: List<String>.from(json["episode"].map((x) => x)),
         url: json["url"],
