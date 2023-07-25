@@ -6,8 +6,28 @@ import 'package:rick_and_morty_app/screens/character_detail/character_detail_rou
 import 'package:rick_and_morty_app/screens/characters/cubit/characters_cubit.dart';
 import 'package:rick_and_morty_app/screens/widgets/box_shimmer.dart';
 
-class CharactersScreen extends StatelessWidget {
+class CharactersScreen extends StatefulWidget {
   const CharactersScreen({super.key});
+
+  @override
+  State<CharactersScreen> createState() => _CharactersScreenState();
+}
+
+class _CharactersScreenState extends State<CharactersScreen> {
+  final scrollController = ScrollController();
+
+  void _onScroll() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      context.read<CharactersCubit>().fetchCharacters();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(_onScroll);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +44,10 @@ class CharactersScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
+            
             if (state is CharactersLoaded) {
               return SingleChildScrollView(
+                controller: scrollController,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -35,7 +57,7 @@ class CharactersScreen extends StatelessWidget {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.characters.characters.length ~/ 2,
+                      itemCount: state.characters.length ~/ 2,
                       itemBuilder: (context, index) {
                         int firstIndex = index * 2;
                         int secondIndex = index * 2 + 1;
@@ -43,12 +65,10 @@ class CharactersScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             CharacterCard(
-                              character:
-                                  state.characters.characters[firstIndex],
+                              character: state.characters[firstIndex],
                             ),
                             CharacterCard(
-                              character:
-                                  state.characters.characters[secondIndex],
+                              character: state.characters[secondIndex],
                             ),
                           ],
                         );
