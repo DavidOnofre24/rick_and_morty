@@ -9,7 +9,7 @@ class LocationCubit extends Cubit<LocationState> {
   final LocationsProvider locationsProvider;
   LocationCubit({required this.locationsProvider}) : super(LocationInitial());
 
-  int currentPage = 1;
+  int currentPage = 0;
   var pageSize = 2;
   List<Location> allLocations = [];
 
