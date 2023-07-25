@@ -17,8 +17,8 @@ class _CharactersScreenState extends State<CharactersScreen> {
   final scrollController = ScrollController();
 
   void _onScroll() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels >=
+        scrollController.position.maxScrollExtent - 100) {
       context.read<CharactersCubit>().fetchCharacters();
     }
   }
@@ -44,11 +44,10 @@ class _CharactersScreenState extends State<CharactersScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-            
+
             if (state is CharactersLoaded) {
-              return SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
+              return ListView(controller: scrollController, children: [
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const SizedBox(
@@ -74,9 +73,26 @@ class _CharactersScreenState extends State<CharactersScreen> {
                         );
                       },
                     ),
+                    if (state.isLoadMore)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          BoxSimmer(
+                            width: MediaQuery.of(context).size.width * 0.43,
+                            height: 200,
+                          ),
+                          BoxSimmer(
+                            width: MediaQuery.of(context).size.width * 0.43,
+                            height: 200,
+                          ),
+                        ],
+                      )
                   ],
                 ),
-              );
+              ]);
             }
 
             if (state is CharactersError) {

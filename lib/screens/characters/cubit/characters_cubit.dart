@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/models/character_model.dart';
 import 'package:rick_and_morty_app/providers/character_provider.dart';
@@ -17,8 +18,18 @@ class CharactersCubit extends Cubit<CharactersState> {
 
   void fetchCharacters() async {
     try {
-      if (state is CharactersLoading) {
-        return;
+      if (state is CharactersLoaded) {
+        final currentState = state as CharactersLoaded;
+        if (currentState.isLoadMore) {
+          return;
+        }
+      }
+
+      if (state is CharactersLoaded) {
+        emit(CharactersLoaded(
+            isLoadMore: true, characters: List.of(allCharacters)));
+      } else {
+        emit(CharactersLoading());
       }
 
       final charactersApiModel =
@@ -27,7 +38,8 @@ class CharactersCubit extends Cubit<CharactersState> {
       if (charactersApiModel.characters.isNotEmpty) {
         allCharacters.addAll(charactersApiModel.characters);
 
-        emit(CharactersLoaded(characters: List.of(allCharacters)));
+        emit(CharactersLoaded(
+            characters: List.of(allCharacters), isLoadMore: false));
         currentPage++;
       } else {
         emit(CharactersError(message: "No hay más personajes disponibles."));
