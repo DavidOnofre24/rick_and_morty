@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:http/http.dart' show Client;
-import 'package:rick_and_morty_app/models/character_detail_model.dart';
+import 'package:rick_and_morty_app/models/character/character_detail_model.dart';
 import 'dart:convert';
 
-import 'package:rick_and_morty_app/models/characters_api_model.dart';
+import 'package:rick_and_morty_app/models/character/characters_api_model.dart';
 
 class CharactersProvider {
   final Client client;
