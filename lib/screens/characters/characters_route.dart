@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/bloc/cubit/characters_provider.dart';
 import 'package:rick_and_morty_app/navigation/navigation.dart';
-import 'package:rick_and_morty_app/screens/characters_screen.dart';
+import 'package:rick_and_morty_app/screens/characters/characters_screen.dart';
 
 class CharactersRoute extends RouteBuilder {
   static String routeName = "/characters";

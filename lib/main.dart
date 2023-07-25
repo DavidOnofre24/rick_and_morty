@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_app/dependecies_injection/dependencies_injection.dart';
-import 'package:rick_and_morty_app/screens/characters_route.dart';
+import 'package:rick_and_morty_app/screens/characters/characters_route.dart';
 
 void main() async {
   await setupDependencies();

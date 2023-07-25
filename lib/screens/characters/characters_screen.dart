@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/cubit/characters_cubit.dart';
+import '../../bloc/cubit/characters_cubit.dart';
 
 class CharactersScreen extends StatelessWidget {
   const CharactersScreen({super.key});
