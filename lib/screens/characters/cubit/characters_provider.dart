@@ -6,6 +6,6 @@ BlocProvider<CharactersCubit> charactersCubitProvider() {
   return BlocProvider<CharactersCubit>(
     create: (context) => CharactersCubit(
       charactersProvider: getIt.get(),
-    )..fetchCharacters(),
+    ),
   );
 }
