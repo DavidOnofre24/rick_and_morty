@@ -47,6 +47,9 @@ class _InitialScreenState extends State<InitialScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container());
+    return const Scaffold(
+        body: Center(
+      child: CircularProgressIndicator(),
+    ));
   }
 }
