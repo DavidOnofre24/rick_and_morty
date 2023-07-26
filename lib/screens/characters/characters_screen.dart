@@ -160,7 +160,11 @@ class CharacterCard extends StatelessWidget {
                     child: Text(
                       character.status.name.substring(0, 1).toUpperCase() +
                           character.status.name.substring(1),
-                      style: const TextStyle(fontSize: 17),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ))
                 ],

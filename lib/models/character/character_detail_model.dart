@@ -35,7 +35,7 @@ class CharacterDetail {
         name: json["name"],
         status: json["status"],
         species: json["species"],
-        type: json["type"],
+        type: json["type"] == "" ? "Unknown" : json["type"],
         gender: json["gender"],
         origin: LocationAbr.fromJson(json["origin"]),
         location: LocationAbr.fromJson(json["location"]),
