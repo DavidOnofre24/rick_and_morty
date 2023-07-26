@@ -38,136 +38,8 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                 _appBar(state.characterDetail),
                 SliverList(
                     delegate: SliverChildListDelegate([
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: const Text(
-                      "Description",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: const Offset(0, 1),
-                          ),
-                        ]),
-                    child: Column(
-                      children: [
-                        RowDescription(
-                          label: "Status",
-                          description: state.characterDetail.status,
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        RowDescription(
-                          label: "Species",
-                          description: state.characterDetail.species,
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        RowDescription(
-                          label: "Type",
-                          description: state.characterDetail.type,
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        RowDescription(
-                          label: "Gender",
-                          description: state.characterDetail.gender,
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        RowDescription(
-                          label: "Orgin",
-                          description: state.characterDetail.origin.name,
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        RowDescription(
-                          label: "Location",
-                          description: state.characterDetail.location.name,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: const Text(
-                      "Episodes where you can see",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SingleChildScrollView(
-                    child: Column(children: [
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      for (var episode in state.characterDetail.episode)
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ]),
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          child: Text(
-                            "Episode: ${episode.split('/').last} ",
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                    ]),
-                  ),
+                  _descriptionSection(state),
+                  _episodesCanSeeSection(state: state),
                 ])),
               ],
             ),
@@ -175,6 +47,154 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
         }
         return const SizedBox();
       },
+    );
+  }
+
+  Widget _descriptionSection(CharacterDetailLoaded state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 10.0,
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          child: const Text(
+            "Description",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: const Offset(0, 1),
+                ),
+              ]),
+          child: Column(
+            children: [
+              RowDescription(
+                label: "Status",
+                description: state.characterDetail.status,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              RowDescription(
+                label: "Species",
+                description: state.characterDetail.species,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              RowDescription(
+                label: "Type",
+                description: state.characterDetail.type,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              RowDescription(
+                label: "Gender",
+                description: state.characterDetail.gender,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              RowDescription(
+                label: "Orgin",
+                description: state.characterDetail.origin.name,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              RowDescription(
+                label: "Location",
+                description: state.characterDetail.location.name,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _episodesCanSeeSection({
+    required CharacterDetailLoaded state,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 20.0,
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          child: const Text(
+            "Episodes where you can see",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SingleChildScrollView(
+          child: Column(children: [
+            const SizedBox(
+              width: 10,
+            ),
+            for (var episode in state.characterDetail.episode)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      ),
+                    ]),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                child: Text(
+                  "Episode: ${episode.split('/').last} ",
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            const SizedBox(
+              height: 30,
+            ),
+          ]),
+        ),
+      ],
     );
   }
 
