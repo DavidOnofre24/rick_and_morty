@@ -119,54 +119,6 @@ class _CharactersScreenState extends State<CharactersScreen> {
                 ),
               ],
             ),
-            const Text('Filter by species'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectSpeciesFilter == 0) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectSpeciesFilter = 0;
-                      context
-                          .read<CharactersCubit>()
-                          .setSpecies(Species.human.name);
-                    });
-                  },
-                  child: const Text('By Human'),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectSpeciesFilter == 1) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectSpeciesFilter = 1;
-                      context
-                          .read<CharactersCubit>()
-                          .setSpecies(Species.alien.name);
-                    });
-                  },
-                  child: const Text('By Alien'),
-                ),
-              ],
-            ),
             const Text('Filter by gender'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -233,6 +185,54 @@ class _CharactersScreenState extends State<CharactersScreen> {
                     });
                   },
                   child: const Text('By Unknown'),
+                ),
+              ],
+            ),
+            const Text('Filter by species'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.resolveWith((states) =>
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: MaterialStateColor.resolveWith((states) {
+                        if (selectSpeciesFilter == 0) {
+                          return Colors.blue;
+                        }
+                        return Colors.grey[700]!;
+                      })),
+                  onPressed: () {
+                    setState(() {
+                      selectSpeciesFilter = 0;
+                      context
+                          .read<CharactersCubit>()
+                          .setSpecies(Species.human.name);
+                    });
+                  },
+                  child: const Text('By Human'),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.resolveWith((states) =>
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: MaterialStateColor.resolveWith((states) {
+                        if (selectSpeciesFilter == 1) {
+                          return Colors.blue;
+                        }
+                        return Colors.grey[700]!;
+                      })),
+                  onPressed: () {
+                    setState(() {
+                      selectSpeciesFilter = 1;
+                      context
+                          .read<CharactersCubit>()
+                          .setSpecies(Species.alien.name);
+                    });
+                  },
+                  child: const Text('By Alien'),
                 ),
               ],
             ),
