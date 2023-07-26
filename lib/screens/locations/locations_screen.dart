@@ -4,6 +4,7 @@ import 'package:rick_and_morty_app/models/location/location_model.dart';
 import 'package:rick_and_morty_app/screens/location_detail/location_detail_route.dart';
 import 'package:rick_and_morty_app/screens/locations/cubit/location_cubit.dart';
 import 'package:rick_and_morty_app/screens/widgets/box_shimmer.dart';
+import 'package:rick_and_morty_app/screens/widgets/search_widget.dart';
 
 class LocationsScreen extends StatefulWidget {
   const LocationsScreen({super.key});
@@ -14,6 +15,7 @@ class LocationsScreen extends StatefulWidget {
 
 class _LocationsScreenState extends State<LocationsScreen> {
   final scrollController = ScrollController();
+  int selectFilter = 0;
 
   void _onScroll() {
     if (scrollController.position.pixels >=
@@ -31,62 +33,147 @@ class _LocationsScreenState extends State<LocationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocationCubit, LocationState>(
-      bloc: context.read<LocationCubit>(),
-      builder: (context, state) {
-        if (state is LocationLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        if (state is LocationLoaded) {
-          return ListView(controller: scrollController, children: [
-            Column(
+    return SafeArea(
+      child: SingleChildScrollView(
+        controller: scrollController,
+        child: Column(
+          children: [
+            const Text('Select by filter do you want to search'),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.locations.length,
-                  itemBuilder: (context, index) {
-                    return LocationCard(
-                      location: state.locations[index],
-                    );
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.resolveWith((states) =>
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: MaterialStateColor.resolveWith((states) {
+                        if (selectFilter == 0) {
+                          return Colors.blue;
+                        }
+                        return Colors.grey[700]!;
+                      })),
+                  onPressed: () {
+                    setState(() {
+                      selectFilter = 0;
+                    });
                   },
+                  child: const Text('By Name'),
                 ),
-                if (state.isLoadMore)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      BoxSimmer(
-                        width: MediaQuery.of(context).size.width * 0.43,
-                        height: 200,
-                      ),
-                      BoxSimmer(
-                        width: MediaQuery.of(context).size.width * 0.43,
-                        height: 200,
-                      ),
-                    ],
-                  )
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.resolveWith((states) =>
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: MaterialStateColor.resolveWith((states) {
+                        if (selectFilter == 1) {
+                          return Colors.blue;
+                        }
+                        return Colors.grey[700]!;
+                      })),
+                  onPressed: () {
+                    setState(() {
+                      selectFilter = 1;
+                    });
+                  },
+                  child: const Text('By Type'),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.resolveWith((states) =>
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      backgroundColor: MaterialStateColor.resolveWith((states) {
+                        if (selectFilter == 2) {
+                          return Colors.blue;
+                        }
+                        return Colors.grey[700]!;
+                      })),
+                  onPressed: () {
+                    setState(() {
+                      selectFilter = 2;
+                    });
+                  },
+                  child: const Text('By Dimension'),
+                ),
               ],
             ),
-          ]);
-        }
+            SearchWidget(onSearch: (value) {
+              selectFilter == 0
+                  ? context.read<LocationCubit>().setName(value)
+                  : selectFilter == 1
+                      ? context.read<LocationCubit>().setType(value)
+                      : context.read<LocationCubit>().setDimension(value);
+            }),
+            BlocBuilder<LocationCubit, LocationState>(
+              bloc: context.read<LocationCubit>(),
+              builder: (context, state) {
+                if (state is LocationLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-        if (state is LocationError) {
-          return Center(
-            child: Text(state.error),
-          );
-        }
-        return const SizedBox.shrink();
-      },
+                if (state is LocationLoaded) {
+                  return ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.locations.length,
+                              itemBuilder: (context, index) {
+                                return LocationCard(
+                                  location: state.locations[index],
+                                );
+                              },
+                            ),
+                            if (state.isLoadMore)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  BoxSimmer(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.43,
+                                    height: 200,
+                                  ),
+                                  BoxSimmer(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.43,
+                                    height: 200,
+                                  ),
+                                ],
+                              ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                      ]);
+                }
+
+                if (state is LocationError) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -136,6 +223,13 @@ class LocationCard extends StatelessWidget {
                 ),
                 Text(
                   location.type,
+                  maxLines: 1,
+                  style: const TextStyle(fontSize: 14),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  location.dimension,
                   maxLines: 1,
                   style: const TextStyle(fontSize: 14),
                   textAlign: TextAlign.left,

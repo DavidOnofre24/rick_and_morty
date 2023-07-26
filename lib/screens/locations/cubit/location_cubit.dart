@@ -27,8 +27,11 @@ class LocationCubit extends Cubit<LocationState> {
       }
 
       if (state is LocationLoaded) {
-        emit(
-            LocationLoaded(isLoadMore: true, locations: List.of(allLocations)));
+        emit(LocationLoaded(
+          isLoadMore: true,
+          locations: allLocations.toSet().toList(),
+          isSearch: false,
+        ));
       } else {
         emit(LocationLoading());
       }
@@ -41,13 +44,135 @@ class LocationCubit extends Cubit<LocationState> {
         pageSize = locationsApiModel.info.pages;
 
         emit(LocationLoaded(
-            locations: List.of(allLocations), isLoadMore: false));
+          locations: allLocations.toSet().toList(),
+          isLoadMore: false,
+          isSearch: false,
+        ));
         currentPage++;
       } else {
-        emit(const LocationError(error: "No hay más ubicaciones disponibles."));
+        emit(const LocationError(message: "There are no locations available."));
       }
     } catch (e) {
-      emit(LocationError(error: e.toString()));
+      emit(LocationError(message: e.toString()));
+    }
+  }
+
+  void setName(String name) async {
+    if (name.isEmpty || state is LocationError) {
+      allLocations = [];
+      fetchLocations();
+      return;
+    }
+    final currentState = state as LocationLoaded;
+    currentPage = 0;
+
+    emit(LocationLoaded(
+      isSearch: false,
+      isLoadMore: false,
+      locations: const [],
+      filters: currentState.filters.copyWith(name: name),
+    ));
+    allLocations = [];
+    searchLocation();
+  }
+
+  void setDimension(String dimension) async {
+    if (dimension.isEmpty || state is LocationError) {
+      allLocations = [];
+      fetchLocations();
+      return;
+    }
+    final currentState = state as LocationLoaded;
+    currentPage = 0;
+
+    emit(LocationLoaded(
+      isSearch: false,
+      isLoadMore: false,
+      locations: const [],
+      filters: currentState.filters.copyWith(dimension: dimension),
+    ));
+    allLocations = [];
+    searchLocation();
+  }
+
+  void setType(String type) async {
+    if (type.isEmpty || state is LocationError) {
+      allLocations = [];
+      fetchLocations();
+      return;
+    }
+    final currentState = state as LocationLoaded;
+    currentPage = 0;
+
+    emit(LocationLoaded(
+      isSearch: false,
+      isLoadMore: false,
+      locations: const [],
+      filters: currentState.filters.copyWith(type: type),
+    ));
+    allLocations = [];
+    searchLocation();
+  }
+
+  void searchLocation() async {
+    try {
+      final current = state as LocationLoaded;
+
+      if (state is LocationLoaded) {
+        final currentState = state as LocationLoaded;
+        if (currentState.isLoadMore) {
+          return;
+        }
+        if (!currentState.isSearch) {
+          currentPage = 0;
+          pageSize = 2;
+        }
+      }
+
+      if (state is LocationError) {
+        currentPage = 0;
+        pageSize = 2;
+      }
+
+      if (pageSize < currentPage) {
+        return;
+      }
+
+      if (state is LocationLoaded) {
+        emit(LocationLoaded(
+            isSearch: true,
+            isLoadMore: true,
+            filters: current.filters,
+            locations: allLocations.toSet().toList()));
+      } else {
+        emit(LocationLoading());
+      }
+
+      final locationsApiModel = await locationsProvider.searchLocation(
+        pageNumber: currentPage,
+        type: current.filters.type,
+        dimension: current.filters.dimension,
+        name: current.filters.name,
+      );
+
+      if (locationsApiModel.locations.isNotEmpty) {
+        allLocations.addAll(locationsApiModel.locations);
+
+        pageSize = locationsApiModel.info.pages;
+
+        emit(LocationLoaded(
+          isSearch: true,
+          locations: allLocations.toSet().toList(),
+          isLoadMore: false,
+          filters: current.filters,
+        ));
+
+        currentPage++;
+      } else {
+        emit(const LocationError(message: "There are no episodes available."));
+      }
+    } catch (e) {
+      emit(LocationError(message: e.toString()));
     }
   }
 }
