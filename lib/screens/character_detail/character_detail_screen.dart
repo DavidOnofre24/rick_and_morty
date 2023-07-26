@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty_app/models/character/character_detail_model.dart';
 import 'package:rick_and_morty_app/screens/character_detail/cubit/character_detail_cubit.dart';
 import 'package:rick_and_morty_app/screens/widgets/box_shimmer.dart';
+import 'package:rick_and_morty_app/screens/widgets/row_description.dart';
 
 class CharacterDetailScreen extends StatefulWidget {
   const CharacterDetailScreen({super.key});
@@ -158,7 +159,6 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                             "Episode: ${episode.split('/').last} ",
                             style: const TextStyle(
                               fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -212,48 +212,6 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
           ),
           fit: BoxFit.fill,
         ),
-      ),
-    );
-  }
-}
-
-class RowDescription extends StatelessWidget {
-  final String label;
-  final String description;
-  const RowDescription({
-    super.key,
-    required this.label,
-    required this.description,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            child: Text(
-              "$label: ",
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Flexible(
-            child: Text(
-              description,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
       ),
     );
   }
