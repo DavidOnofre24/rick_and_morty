@@ -49,286 +49,286 @@ class _CharactersScreenState extends State<CharactersScreen> {
         controller: scrollController,
         child: Column(
           children: [
-            SearchWidget(onSearch: context.read<CharactersCubit>().setName),
-            const Text('Filter by status'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectStatusFilter == 0) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectStatusFilter = 0;
-                      context
-                          .read<CharactersCubit>()
-                          .setStatus(Status.alive.name);
-                    });
-                  },
-                  child: const Text('By Alive'),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectStatusFilter == 1) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectStatusFilter = 1;
-                      context
-                          .read<CharactersCubit>()
-                          .setStatus(Status.dead.name);
-                    });
-                  },
-                  child: const Text('By Dead'),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectStatusFilter == 2) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectStatusFilter = 2;
-                      context
-                          .read<CharactersCubit>()
-                          .setStatus(Status.unknown.name);
-                    });
-                  },
-                  child: const Text('By Unknown'),
-                ),
-              ],
-            ),
-            const Text('Filter by gender'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectGenderFilter == 0) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectGenderFilter = 0;
-                      context
-                          .read<CharactersCubit>()
-                          .setGender(Gender.male.name);
-                    });
-                  },
-                  child: const Text('By Male'),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectGenderFilter == 1) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectGenderFilter = 1;
-                      context
-                          .read<CharactersCubit>()
-                          .setGender(Gender.female.name);
-                    });
-                  },
-                  child: const Text('By Female'),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectGenderFilter == 2) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectGenderFilter = 2;
-                      context
-                          .read<CharactersCubit>()
-                          .setGender(Gender.unknown.name);
-                    });
-                  },
-                  child: const Text('By Unknown'),
-                ),
-              ],
-            ),
-            const Text('Filter by species'),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectSpeciesFilter == 0) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectSpeciesFilter = 0;
-                      context
-                          .read<CharactersCubit>()
-                          .setSpecies(Species.human.name);
-                    });
-                  },
-                  child: const Text('By Human'),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.resolveWith((states) =>
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateColor.resolveWith((states) {
-                        if (selectSpeciesFilter == 1) {
-                          return Colors.blue;
-                        }
-                        return Colors.grey[700]!;
-                      })),
-                  onPressed: () {
-                    setState(() {
-                      selectSpeciesFilter = 1;
-                      context
-                          .read<CharactersCubit>()
-                          .setSpecies(Species.alien.name);
-                    });
-                  },
-                  child: const Text('By Alien'),
-                ),
-              ],
-            ),
-            BlocBuilder<CharactersCubit, CharactersState>(
-              bloc: context.read<CharactersCubit>(),
-              builder: (context, state) {
-                if (state is CharactersLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                if (state is CharactersLoaded) {
-                  return ListView(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: (state.characters.length == 1)
-                                  ? state.characters.length
-                                  : state.characters.length ~/ 2,
-                              itemBuilder: (context, index) {
-                                int firstIndex = index;
-                                int secondIndex = index * 2 + 1;
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    CharacterCard(
-                                      character: state.characters[firstIndex],
-                                    ),
-                                    if (state.characters.length != 1)
-                                      CharacterCard(
-                                        character:
-                                            state.characters[secondIndex],
-                                      ),
-                                  ],
-                                );
-                              },
-                            ),
-                            if (state.isLoadMore)
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  BoxSimmer(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.43,
-                                    height: 200,
-                                  ),
-                                  BoxSimmer(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.43,
-                                    height: 200,
-                                  ),
-                                ],
-                              )
-                          ],
-                        ),
-                      ]);
-                }
-
-                if (state is CharactersError) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Text(state.message),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<CharactersCubit>().fetchCharacters();
-                        },
-                        child: const Text("Reload"),
-                      )
-                    ],
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+            _filterSection(context),
+            _buildCharactersCards(context),
           ],
         ),
       ),
+    );
+  }
+
+  BlocBuilder<CharactersCubit, CharactersState> _buildCharactersCards(
+      BuildContext context) {
+    return BlocBuilder<CharactersCubit, CharactersState>(
+      bloc: context.read<CharactersCubit>(),
+      builder: (context, state) {
+        if (state is CharactersLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (state is CharactersLoaded) {
+          return ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: (state.characters.length == 1)
+                          ? state.characters.length
+                          : state.characters.length ~/ 2,
+                      itemBuilder: (context, index) {
+                        int firstIndex = index;
+                        int secondIndex = index * 2 + 1;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            CharacterCard(
+                              character: state.characters[firstIndex],
+                            ),
+                            if (state.characters.length != 1)
+                              CharacterCard(
+                                character: state.characters[secondIndex],
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                    if (state.isLoadMore)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          BoxSimmer(
+                            width: MediaQuery.of(context).size.width * 0.43,
+                            height: 200,
+                          ),
+                          BoxSimmer(
+                            width: MediaQuery.of(context).size.width * 0.43,
+                            height: 200,
+                          ),
+                        ],
+                      )
+                  ],
+                ),
+              ]);
+        }
+
+        if (state is CharactersError) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(state.message),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.read<CharactersCubit>().fetchCharacters();
+                },
+                child: const Text("Reload"),
+              )
+            ],
+          );
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _filterSection(BuildContext context) {
+    return Column(
+      children: [
+        SearchWidget(onSearch: context.read<CharactersCubit>().setName),
+        const Text('Filter by status'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) {
+                    if (selectStatusFilter == 0) {
+                      return Colors.blue;
+                    }
+                    return Colors.grey[700]!;
+                  })),
+              onPressed: () {
+                setState(() {
+                  selectStatusFilter = 0;
+                  context.read<CharactersCubit>().setStatus(Status.alive.name);
+                });
+              },
+              child: const Text('By Alive'),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) {
+                    if (selectStatusFilter == 1) {
+                      return Colors.blue;
+                    }
+                    return Colors.grey[700]!;
+                  })),
+              onPressed: () {
+                setState(() {
+                  selectStatusFilter = 1;
+                  context.read<CharactersCubit>().setStatus(Status.dead.name);
+                });
+              },
+              child: const Text('By Dead'),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) {
+                    if (selectStatusFilter == 2) {
+                      return Colors.blue;
+                    }
+                    return Colors.grey[700]!;
+                  })),
+              onPressed: () {
+                setState(() {
+                  selectStatusFilter = 2;
+                  context
+                      .read<CharactersCubit>()
+                      .setStatus(Status.unknown.name);
+                });
+              },
+              child: const Text('By Unknown'),
+            ),
+          ],
+        ),
+        const Text('Filter by gender'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) {
+                    if (selectGenderFilter == 0) {
+                      return Colors.blue;
+                    }
+                    return Colors.grey[700]!;
+                  })),
+              onPressed: () {
+                setState(() {
+                  selectGenderFilter = 0;
+                  context.read<CharactersCubit>().setGender(Gender.male.name);
+                });
+              },
+              child: const Text('By Male'),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) {
+                    if (selectGenderFilter == 1) {
+                      return Colors.blue;
+                    }
+                    return Colors.grey[700]!;
+                  })),
+              onPressed: () {
+                setState(() {
+                  selectGenderFilter = 1;
+                  context.read<CharactersCubit>().setGender(Gender.female.name);
+                });
+              },
+              child: const Text('By Female'),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) {
+                    if (selectGenderFilter == 2) {
+                      return Colors.blue;
+                    }
+                    return Colors.grey[700]!;
+                  })),
+              onPressed: () {
+                setState(() {
+                  selectGenderFilter = 2;
+                  context
+                      .read<CharactersCubit>()
+                      .setGender(Gender.unknown.name);
+                });
+              },
+              child: const Text('By Unknown'),
+            ),
+          ],
+        ),
+        const Text('Filter by species'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) {
+                    if (selectSpeciesFilter == 0) {
+                      return Colors.blue;
+                    }
+                    return Colors.grey[700]!;
+                  })),
+              onPressed: () {
+                setState(() {
+                  selectSpeciesFilter = 0;
+                  context
+                      .read<CharactersCubit>()
+                      .setSpecies(Species.human.name);
+                });
+              },
+              child: const Text('By Human'),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.resolveWith((states) =>
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  backgroundColor: MaterialStateColor.resolveWith((states) {
+                    if (selectSpeciesFilter == 1) {
+                      return Colors.blue;
+                    }
+                    return Colors.grey[700]!;
+                  })),
+              onPressed: () {
+                setState(() {
+                  selectSpeciesFilter = 1;
+                  context
+                      .read<CharactersCubit>()
+                      .setSpecies(Species.alien.name);
+                });
+              },
+              child: const Text('By Alien'),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
