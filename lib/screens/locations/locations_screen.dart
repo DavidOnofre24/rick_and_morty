@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:rick_and_morty_app/models/location/location_model.dart';
-import 'package:rick_and_morty_app/screens/location_detail/location_detail_route.dart';
 import 'package:rick_and_morty_app/screens/locations/cubit/location_cubit.dart';
 import 'package:rick_and_morty_app/screens/widgets/box_shimmer.dart';
+import 'package:rick_and_morty_app/screens/widgets/row_description.dart';
 import 'package:rick_and_morty_app/screens/widgets/search_widget.dart';
 
 class LocationsScreen extends StatefulWidget {
@@ -186,7 +187,12 @@ class LocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        LocationDetailRoute(context, location: location).push();
+        showDialog(
+          context: context,
+          builder: (context) => LocationDetailModal(
+            location: location,
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -237,6 +243,95 @@ class LocationCard extends StatelessWidget {
                 ),
               ],
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LocationDetailModal extends StatelessWidget {
+  final Location location;
+  const LocationDetailModal({
+    super.key,
+    required this.location,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              alignment: Alignment.topRight,
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xffA0A0A9),
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    size: 15,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                location.name,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            RowDescription(
+              mainAxisAlignment: MainAxisAlignment.start,
+              label: 'Id',
+              description: location.id.toString(),
+              fontSize: 16,
+            ),
+            const SizedBox(height: 10),
+            RowDescription(
+              mainAxisAlignment: MainAxisAlignment.start,
+              label: 'type',
+              description: location.type,
+              fontSize: 16,
+            ),
+            const SizedBox(height: 10),
+            RowDescription(
+              mainAxisAlignment: MainAxisAlignment.start,
+              label: 'Created',
+              description: DateFormat('MM/dd/yyyy').format(location.created),
+              fontSize: 16,
+            ),
+            const SizedBox(height: 10),
+            RowDescription(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              label: 'Dimension',
+              description: location.dimension,
+              fontSize: 16,
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

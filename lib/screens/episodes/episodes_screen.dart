@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:rick_and_morty_app/models/episodes/episode_model.dart';
-import 'package:rick_and_morty_app/screens/episode_detail/episode_detail_route.dart';
 import 'package:rick_and_morty_app/screens/episodes/cubit/episodes_cubit.dart';
 import 'package:rick_and_morty_app/screens/widgets/box_shimmer.dart';
+import 'package:rick_and_morty_app/screens/widgets/row_description.dart';
 import 'package:rick_and_morty_app/screens/widgets/search_widget.dart';
 
 class EpisodesScreen extends StatefulWidget {
@@ -163,7 +164,12 @@ class EpisodeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        EpisodeDetailRoute(context, episode: episode).push();
+        showDialog(
+          context: context,
+          builder: (context) => EpisodeDetailModal(
+            episode: episode,
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -207,6 +213,94 @@ class EpisodeCard extends StatelessWidget {
                 ),
               ],
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EpisodeDetailModal extends StatelessWidget {
+  final Episode episode;
+  const EpisodeDetailModal({
+    super.key,
+    required this.episode,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              alignment: Alignment.topRight,
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xffA0A0A9),
+                  ),
+                  child: const Icon(
+                    Icons.close,
+                    size: 15,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                episode.name,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            RowDescription(
+              mainAxisAlignment: MainAxisAlignment.start,
+              label: 'Id',
+              description: episode.id.toString(),
+              fontSize: 16,
+            ),
+            const SizedBox(height: 10),
+            RowDescription(
+              mainAxisAlignment: MainAxisAlignment.start,
+              label: 'Episode',
+              description: episode.episode,
+              fontSize: 16,
+            ),
+            const SizedBox(height: 10),
+            RowDescription(
+              mainAxisAlignment: MainAxisAlignment.start,
+              label: 'Created',
+              description: DateFormat('MM/dd/yyyy').format(episode.created),
+              fontSize: 16,
+            ),
+            const SizedBox(height: 10),
+            RowDescription(
+              mainAxisAlignment: MainAxisAlignment.start,
+              label: 'Air date',
+              description: episode.airDate,
+              fontSize: 16,
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
