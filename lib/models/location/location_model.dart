@@ -1,4 +1,6 @@
-class Location {
+import 'package:equatable/equatable.dart';
+
+class Location extends Equatable {
   final int id;
   final String name;
   final String type;
@@ -7,7 +9,7 @@ class Location {
   final String url;
   final DateTime created;
 
-  Location({
+  const Location({
     required this.id,
     required this.name,
     required this.type,
@@ -30,4 +32,15 @@ class Location {
         url: json["url"],
         created: DateTime.parse(json["created"] ?? "2023-04-04T20:19:18.687Z"),
       );
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        type,
+        dimension,
+        residents,
+        url,
+        created,
+      ];
 }
