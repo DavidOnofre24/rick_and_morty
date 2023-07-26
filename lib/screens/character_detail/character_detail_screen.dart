@@ -44,7 +44,6 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     child: const Text(
                       "Description",
-                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,
