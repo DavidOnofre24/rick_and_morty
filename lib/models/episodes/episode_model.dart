@@ -1,4 +1,6 @@
-class Episode {
+import 'package:equatable/equatable.dart';
+
+class Episode extends Equatable {
   final int id;
   final String name;
   final String airDate;
@@ -7,7 +9,7 @@ class Episode {
   final String url;
   final DateTime created;
 
-  Episode({
+  const Episode({
     required this.id,
     required this.name,
     required this.airDate,
@@ -26,4 +28,15 @@ class Episode {
         url: json["url"],
         created: DateTime.parse(json["created"]),
       );
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        airDate,
+        episode,
+        characters,
+        url,
+        created,
+      ];
 }

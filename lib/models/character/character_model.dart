@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:rick_and_morty_app/models/character/gender_enum.dart';
 import 'package:rick_and_morty_app/models/character/location_abr_model.dart';
 import 'package:rick_and_morty_app/models/character/species_enum.dart';
 import 'package:rick_and_morty_app/models/character/status_enum.dart';
 
-class Character {
+class Character extends Equatable {
   final int id;
   final String name;
   final Status status;
@@ -17,7 +18,7 @@ class Character {
   final String url;
   final DateTime created;
 
-  Character({
+  const Character({
     required this.id,
     required this.name,
     required this.status,
@@ -46,4 +47,20 @@ class Character {
         url: json["url"],
         created: DateTime.parse(json["created"]),
       );
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        status,
+        species,
+        type,
+        gender,
+        origin,
+        location,
+        image,
+        episode,
+        url,
+        created,
+      ];
 }
