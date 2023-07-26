@@ -31,4 +31,30 @@ class CharactersProvider {
       throw Exception('Failed to load');
     }
   }
+
+  Future<CharactersApiModel> searchCharacter({
+    String? name,
+    String? status,
+    String? species,
+    String? gender,
+    required int pageNumber,
+  }) async {
+    final query = {
+      if (name != null) "name": name,
+      if (status != null) "status": status,
+      if (species != null) "species": species,
+      if (species != gender) "gender": gender,
+      "page": pageNumber.toString(),
+    };
+    final uri = Uri.parse("https://rickandmortyapi.com/api/character").replace(
+      queryParameters: query,
+    );
+    final response =
+        await client.get(uri, headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      return CharactersApiModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('No data found');
+    }
+  }
 }

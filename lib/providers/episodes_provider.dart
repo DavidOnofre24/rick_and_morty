@@ -30,4 +30,26 @@ class EpisodesProvider {
       throw Exception('Failed to load');
     }
   }
+
+  Future<EpisodesApiModel> searchEpisode({
+    String? name,
+    String? episode,
+    required int pageNumber,
+  }) async {
+    final query = {
+      if (name != null) "name": name,
+      if (episode != null) "episode": episode,
+      "page": pageNumber.toString(),
+    };
+    final uri = Uri.parse("https://rickandmortyapi.com/api/episode").replace(
+      queryParameters: query,
+    );
+    final response =
+        await client.get(uri, headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      return EpisodesApiModel.fromJson(json.decode(response.body));
+    } else {
+      return EpisodesApiModel.fromJson({"info": null, "results": []});
+    }
+  }
 }

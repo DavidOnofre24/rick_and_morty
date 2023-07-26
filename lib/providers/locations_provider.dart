@@ -30,4 +30,28 @@ class LocationsProvider {
       throw Exception('Failed to load');
     }
   }
+
+  Future<LocationsApiModel> searchLocation({
+    String? name,
+    String? type,
+    String? dimension,
+    required int pageNumber,
+  }) async {
+    final query = {
+      if (name != null) "name": name,
+      if (type != null) "type": type,
+      if (dimension != null) "dimension": dimension,
+      "page": pageNumber.toString(),
+    };
+    final uri = Uri.parse("https://rickandmortyapi.com/api/location").replace(
+      queryParameters: query,
+    );
+    final response =
+        await client.get(uri, headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      return LocationsApiModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('No data found');
+    }
+  }
 }
